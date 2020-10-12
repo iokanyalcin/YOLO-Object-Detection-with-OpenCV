@@ -75,10 +75,7 @@ for output in layerOutputs:
 		# filter out weak predictions by ensuring the detected
 		# probability is greater than the minimum probability
 		if confidence > args["confidence"]:
-			# scale the bounding box coordinates back relative to the
-			# size of the image, keeping in mind that YOLO actually
-			# returns the center (x, y)-coordinates of the bounding
-			# box followed by the boxes' width and height
+			# scale the bounding box coordinates
 			box = detection[0:4] * np.array([n_W, n_H, n_W, n_H])
 			(centerX, centerY, width, height) = box.astype("int")
 			# use the center (x, y)-coordinates to derive the top and
@@ -92,8 +89,7 @@ for output in layerOutputs:
 			classIDs.append(classID)
 
 
-# apply non-maxima suppression to suppress weak, overlapping bounding
-# boxes
+#  non-maxima suppression
 idxs = cv2.dnn.NMSBoxes(boxes, confidences, args["confidence"],
 	args["threshold"])
 
